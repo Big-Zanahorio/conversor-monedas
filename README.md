@@ -39,18 +39,6 @@ Se utiliza la API pública de **[ExchangeRateAPI](https://app.exchangerate-api.c
 
 ---
 
-## 📸 Capturas de pantalla
-
-Aquí puedes mostrar cómo se ve tu aplicación. Reemplaza los enlaces con tus propias imágenes:
-
-### Menú principal:
-![Menú principal](https://via.placeholder.com/600x200.png?text=Captura+de+Men%C3%BA)
-
-### Resultado de conversión:
-![Resultado](https://via.placeholder.com/600x200.png?text=Resultado+de+Conversi%C3%B3n)
-
----
-
 ## 📄 Licencia
 
 Este proyecto está bajo **licencia MIT**. Puedes usarlo, modificarlo y compartirlo libremente.
