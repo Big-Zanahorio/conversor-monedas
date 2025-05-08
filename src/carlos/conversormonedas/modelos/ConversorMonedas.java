@@ -1,11 +1,21 @@
 package carlos.conversormonedas.modelos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConversorMonedas {
+    List<Consulta> consultas = new ArrayList<>();
+    public void mostrarConsultas() {
+        System.out.println("Historial de consultas: ");
+        for (Consulta consulta : consultas) {
+            System.out.println(consulta.valorMoneda() + " " + consulta.moneda()
+                    + " vale " + consulta.valorMonedaConvertida() + " " + consulta.monedaConvertida());
+        }
+    }
     public  void convertir(String moneda, String otraMoneda) {
         Consultor conversor = new Consultor();
-        Moneda valoresActuales = conversor.obtenerValoresActuales(moneda);
+        TazaDeCambio valoresActuales = conversor.obtenerValoresActuales(moneda);
         Scanner teclado = new Scanner(System.in);
         double cantidadAConvertir;
         double cantidadConvertida;
@@ -13,6 +23,8 @@ public class ConversorMonedas {
         cantidadAConvertir = teclado.nextDouble();
         cantidadConvertida = valoresActuales.conversion_rates().get(otraMoneda) * cantidadAConvertir;
         System.out.println("Cantidad convertida: " + cantidadConvertida);
+        Consulta consulta = new Consulta(cantidadAConvertir, moneda, cantidadConvertida, otraMoneda);
+        consultas.add(consulta);
     }
 
     public void mostrarMenu() {
@@ -22,9 +34,9 @@ public class ConversorMonedas {
         Scanner teclado = new Scanner(System.in);
         while (!salir) {
             System.out.println("""
-                ****************************************************
+                *********************************
                 Bienvenido al Conversor de Moneda
-                ****************************************************
+                *********************************
                 
                 1) Dolar =>> Peso Mexicano
                 2) Peso Mexicano =>> Dolar
@@ -32,7 +44,8 @@ public class ConversorMonedas {
                 4) Real brasileño =>> Dolar
                 5) Dolar =>> Peso colombiano
                 6) Peso colombiano =>> Dolar
-                7) Salir
+                7) Mostrar consultas
+                8) Salir
                 
                 Escoja una opcion valida:
                 """);
@@ -57,6 +70,9 @@ public class ConversorMonedas {
                     this.convertir("COP", "USD");
                     break;
                 case 7:
+                    this.mostrarConsultas();
+                    break;
+                case 8:
                     salir = true;
                     break;
                 default:
