@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class ConversorMonedas {
     List<Consulta> consultas = new ArrayList<>();
+    Consultor consultor = new Consultor();
+
     public void mostrarConsultas() {
         System.out.println("Historial de consultas: ");
         for (Consulta consulta : consultas) {
@@ -13,18 +15,33 @@ public class ConversorMonedas {
                     + " vale " + consulta.valorMonedaConvertida() + " " + consulta.monedaConvertida());
         }
     }
-    public  void convertir(String moneda, String otraMoneda) {
-        Consultor conversor = new Consultor();
-        TazaDeCambio valoresActuales = conversor.obtenerValoresActuales(moneda);
+    public  void convertir() {
+        String moneda;
+        String otraMoneda;
         Scanner teclado = new Scanner(System.in);
         double cantidadAConvertir;
         double cantidadConvertida;
-        System.out.println("Ingresa la cantidad a convertir: ");
-        cantidadAConvertir = teclado.nextDouble();
-        cantidadConvertida = valoresActuales.conversion_rates().get(otraMoneda) * cantidadAConvertir;
-        System.out.println("Cantidad convertida: " + cantidadConvertida);
-        Consulta consulta = new Consulta(cantidadAConvertir, moneda, cantidadConvertida, otraMoneda);
-        consultas.add(consulta);
+        System.out.println("""
+                Ingresa el codigo de la moneda a convertir.
+                (Ejemplo MXN)
+                """);
+        moneda = teclado.nextLine();
+        try {
+            TazaDeCambio valoresActuales = consultor.obtenerValoresActuales(moneda);
+            System.out.println("""
+                Ingresa el codigo de la moneda a la que la quieres convertir.
+                (Ejemplo USD)
+                """);
+            otraMoneda = teclado.nextLine();
+            System.out.println("Ingresa la cantidad a convertir: ");
+            cantidadAConvertir = teclado.nextDouble();
+            cantidadConvertida = valoresActuales.conversion_rates().get(otraMoneda) * cantidadAConvertir;
+            System.out.println(cantidadAConvertir + " " + moneda + " equivale a " + cantidadConvertida + " " + otraMoneda);
+            Consulta consulta = new Consulta(cantidadAConvertir, moneda, cantidadConvertida, otraMoneda);
+            consultas.add(consulta);
+        } catch (Exception e) {
+            System.out.println("Hubo un error: " + e.getMessage());
+        }
     }
 
     public void mostrarMenu() {
@@ -38,47 +55,39 @@ public class ConversorMonedas {
                 Bienvenido al Conversor de Moneda
                 *********************************
                 
-                1) Dolar =>> Peso Mexicano
-                2) Peso Mexicano =>> Dolar
-                3) Dolar =>> Real brasileño
-                4) Real brasileño =>> Dolar
-                5) Dolar =>> Peso colombiano
-                6) Peso colombiano =>> Dolar
-                7) Mostrar consultas
-                8) Salir
+                1) Convertir moneda
+                2) Mostrar consultas
+                3) Claves de las monedas
+                9) Salir
                 
                 Escoja una opcion valida:
                 """);
             seleccion = teclado.nextInt();
             switch (seleccion) {
                 case 1:
-                    this.convertir("USD", "MXN");
+                    this.convertir();
                     break;
                 case 2:
-                    this.convertir("MXN", "USD");
-                    break;
-                case 3:
-                    this.convertir("USD", "BRL");
-                    break;
-                case 4:
-                    this.convertir("BRL", "USD");
-                    break;
-                case 5:
-                    this.convertir("USD", "COP");
-                    break;
-                case 6:
-                    this.convertir("COP", "USD");
-                    break;
-                case 7:
                     this.mostrarConsultas();
                     break;
-                case 8:
+                case 3:
+                    this.mostrarClaves();
+                    break;
+                case 9:
                     salir = true;
                     break;
                 default:
                     System.out.println("Opcion invalida");
                     break;
             }
+        }
+    }
+
+    private void mostrarClaves() {
+        CodigosDeMonedaActuales monedas = consultor.obtenerMonedasActuales();
+        System.out.println("Monedas: " + monedas);
+        for (String moneda : monedas.supported_codes().keySet()) {
+            System.out.println(monedas.supported_codes().get(moneda) + ": " + moneda);
         }
     }
 }
