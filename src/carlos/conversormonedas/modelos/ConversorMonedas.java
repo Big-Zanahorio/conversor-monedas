@@ -22,6 +22,7 @@ public class ConversorMonedas {
         Scanner teclado = new Scanner(System.in);
         double cantidadAConvertir;
         String cantidadConvertida;
+
         System.out.println("""
                 Ingresa el codigo de la moneda a convertir.
                 (Ejemplo MXN)
