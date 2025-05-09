@@ -1,5 +1,7 @@
 package carlos.conversormonedas.modelos;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,8 +13,7 @@ public class ConversorMonedas {
     public void mostrarConsultas() {
         System.out.println("Historial de consultas: ");
         for (Consulta consulta : consultas) {
-            System.out.println(consulta.valorMoneda() + " " + consulta.moneda()
-                    + " vale " + consulta.valorMonedaConvertida() + " " + consulta.monedaConvertida());
+            System.out.println(consulta);
         }
     }
     public  void convertir() {
@@ -20,7 +21,7 @@ public class ConversorMonedas {
         String otraMoneda;
         Scanner teclado = new Scanner(System.in);
         double cantidadAConvertir;
-        double cantidadConvertida;
+        String cantidadConvertida;
         System.out.println("""
                 Ingresa el codigo de la moneda a convertir.
                 (Ejemplo MXN)
@@ -35,9 +36,15 @@ public class ConversorMonedas {
             otraMoneda = teclado.nextLine();
             System.out.println("Ingresa la cantidad a convertir: ");
             cantidadAConvertir = teclado.nextDouble();
-            cantidadConvertida = valoresActuales.conversion_rates().get(otraMoneda) * cantidadAConvertir;
+            cantidadConvertida = String.format("%.2f", valoresActuales.conversion_rates().get(otraMoneda) * cantidadAConvertir);
             System.out.println(cantidadAConvertir + " " + moneda + " equivale a " + cantidadConvertida + " " + otraMoneda);
-            Consulta consulta = new Consulta(cantidadAConvertir, moneda, cantidadConvertida, otraMoneda);
+            DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
+            Consulta consulta = new Consulta(
+                    cantidadAConvertir,
+                    moneda,
+                    cantidadConvertida,
+                    otraMoneda,
+                    ZonedDateTime.now().format(formatoBonito).toString());
             consultas.add(consulta);
         } catch (Exception e) {
             System.out.println("Hubo un error: " + e.getMessage());
