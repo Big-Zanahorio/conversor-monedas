@@ -7,9 +7,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class AdaptadorExchangeRate {
+public class AdaptadorExchangeRate implements  APIsDeDivisas{
     double tazaDeCambio;
-    public boolean obtenerTazaDeCambio(String monedaBase, String monedaObjetivo) {
+    public boolean conversionValida(String monedaBase, String monedaObjetivo) {
         URI direccion = URI.create("https://v6.exchangerate-api.com/v6/d82034ea31a337eb2a125d08/latest/" + monedaBase);
 
         HttpClient client = HttpClient.newBuilder()
@@ -32,4 +32,10 @@ public class AdaptadorExchangeRate {
             throw new RuntimeException("No encontre la moneda: " + monedaBase + " en la primer API");
         }
     }
+
+    @Override
+    public double obtenerTazaDeCambio() throws Exception {
+        return tazaDeCambio;
+    }
+
 }

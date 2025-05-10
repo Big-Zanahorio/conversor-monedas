@@ -11,7 +11,9 @@ public class ConversorMonedas {
     private List<Consulta> consultas = new ArrayList<>();
     Consultor consultor = new Consultor();
 
-
+    public ConversorMonedas(List<APIsDeDivisas> APIs) {
+        this.APIs = APIs;
+    }
 
     public void mostrarConsultas() {
         System.out.println("Historial de consultas: ");
