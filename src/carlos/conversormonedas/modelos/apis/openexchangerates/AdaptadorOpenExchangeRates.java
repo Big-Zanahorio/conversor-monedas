@@ -1,7 +1,6 @@
 package carlos.conversormonedas.modelos.apis.openexchangerates;
 
 import carlos.conversormonedas.modelos.apis.ApisDeDivisas;
-import carlos.conversormonedas.modelos.apis.exchangerate.RespuestaEchangeRate;
 import com.google.gson.Gson;
 
 import java.net.URI;
@@ -36,7 +35,7 @@ public class AdaptadorOpenExchangeRates implements ApisDeDivisas {
             RespuestaOpenExchangeRates respuesta = new Gson().fromJson(response.body(), RespuestaOpenExchangeRates.class);
             return respuesta.rates().get(monedaObjetivo);
         } catch (Exception e) {
-            throw new RuntimeException("No encontre la moneda: " + monedaBase + " en la primer API");
+            throw new RuntimeException("No encontre la moneda: " + monedaBase + " en la segunda API");
         }
     }
 
@@ -70,7 +69,7 @@ public class AdaptadorOpenExchangeRates implements ApisDeDivisas {
             }
             System.out.println();
         } catch (Exception e) {
-            throw new RuntimeException("Incapaz de obtener las monedas actualizadas");
+            throw new RuntimeException("Error en la API Open Exchange Rates");
         }
     }
 

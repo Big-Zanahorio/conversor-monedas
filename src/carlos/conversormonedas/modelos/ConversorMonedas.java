@@ -5,6 +5,7 @@ import carlos.conversormonedas.modelos.apis.ApisDeDivisas;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,10 +41,10 @@ public class ConversorMonedas {
                 (Ejemplo USD)
                 """);
             monedaObjetivo = teclado.nextLine();
+            System.out.println("Ingresa la cantidad a convertir: ");
+            cantidadBase = teclado.nextDouble();
             for (ApisDeDivisas api : apis) {
                 if (api.conversionValida(monedaBase, monedaObjetivo)) {
-                    System.out.println("Ingresa la cantidad a convertir: ");
-                    cantidadBase = teclado.nextDouble();
                     cantidadObjetivo = String.format("%.2f", cantidadBase * api.obtenerTazaDeCambio(monedaBase, monedaObjetivo));
                     System.out.println(cantidadBase + " " + monedaBase + " equivale a " + cantidadObjetivo + " " + monedaObjetivo);
                     DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
@@ -54,6 +55,7 @@ public class ConversorMonedas {
                             monedaObjetivo,
                             ZonedDateTime.now().format(formatoBonito).toString());
                     consultas.add(consulta);
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -71,40 +73,50 @@ public class ConversorMonedas {
                 *********************************
                 Bienvenido al Conversor de Moneda
                 *********************************
-                
+
                 1) Convertir moneda
                 2) Mostrar consultas
                 3) Claves de las monedas
                 9) Salir
-                
+
                 Escoja una opcion valida:
                 """);
-            seleccion = teclado.nextInt();
-            switch (seleccion) {
-                case 1:
-                    this.convertir();
-                    break;
-                case 2:
-                    this.mostrarConsultas();
-                    break;
-                case 3:
-                    this.mostrarClaves();
-                    break;
-                case 9:
-                    salir = true;
-                    break;
-                default:
-                    System.out.println("Opcion invalida");
-                    break;
+            try {
+                seleccion = teclado.nextInt();
+                switch (seleccion) {
+                    case 1:
+                        this.convertir();
+                        break;
+                    case 2:
+                        this.mostrarConsultas();
+                        break;
+                    case 3:
+                        this.mostrarClaves();
+                        break;
+                    case 9:
+                        salir = true;
+                        break;
+                    default:
+                        System.out.println("Opcion invalida");
+                        break;
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Opcion invalida");
+            } catch (Exception e) {
+                System.out.println("EEEEEEEEEERRRRRRRROOOOOOOOOORRRRRRRRR");
+                System.out.println("Hubo un error");
             }
         }
+//        for (ApisDeDivisas api : apis) {
+//            api.conversionValida("bitcoin", "usd");
+//        }
     }
 
     private void mostrarClaves() {
         for (ApisDeDivisas api : apis) {
             System.out.println("*********************************");
             System.out.println("API: " + api.getNombre());
-            System.out.println("Monedas: ");
             api.muestraConversionesValidas();
             System.out.println("*********************************");
         }

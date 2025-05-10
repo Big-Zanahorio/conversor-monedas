@@ -1,7 +1,6 @@
 package carlos.conversormonedas.modelos.apis.exchangerate;
 
 import carlos.conversormonedas.modelos.apis.ApisDeDivisas;
-import carlos.conversormonedas.modelos.CodigosDeMonedaActuales;
 import com.google.gson.Gson;
 
 import java.net.URI;
@@ -28,11 +27,11 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
             HttpResponse<String> response = null;
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            RespuestaEchangeRate respuesta = new Gson().fromJson(response.body(), RespuestaEchangeRate.class);
+            RespuestaExchangeRate respuesta = new Gson().fromJson(response.body(), RespuestaExchangeRate.class);
             tazaDeCambio = respuesta.conversion_rates().get(monedaObjetivo);
             return true;
         } catch (Exception e) {
-            throw new RuntimeException("No encontre la moneda: " + monedaBase + " en la primer API");
+            return false;
         }
     }
 
@@ -55,7 +54,8 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
             HttpResponse<String> response = null;
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            CodigosDeMonedaActuales monedas =  new Gson().fromJson(response.body(), CodigosDeMonedaActuales.class);
+            MonedasExchangeRate monedas =  new Gson().fromJson(response.body(), MonedasExchangeRate.class);
+            System.out.println("Monedas: ");
             for (String moneda : monedas.supported_codes().keySet()) {
                 System.out.println(monedas.supported_codes().get(moneda) + ": " + moneda);
             }
