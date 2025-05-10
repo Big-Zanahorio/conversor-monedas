@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ConversorMonedas {
-    List<Consulta> consultas = new ArrayList<>();
+    private List<APIsDeDivisas> APIs;
+    private List<Consulta> consultas = new ArrayList<>();
     Consultor consultor = new Consultor();
+
+
 
     public void mostrarConsultas() {
         System.out.println("Historial de consultas: ");
@@ -28,13 +31,16 @@ public class ConversorMonedas {
                 (Ejemplo MXN)
                 """);
         moneda = teclado.nextLine();
-        try {
-            TazaDeCambio valoresActuales = consultor.obtenerValoresActuales(moneda);
-            System.out.println("""
+        System.out.println("""
                 Ingresa el codigo de la moneda a la que la quieres convertir.
                 (Ejemplo USD)
                 """);
-            otraMoneda = teclado.nextLine();
+        otraMoneda = teclado.nextLine();
+        try {
+
+
+
+            RespuestaEchangeRate valoresActuales = consultor.obtenerTazaDeCambio(moneda);
             System.out.println("Ingresa la cantidad a convertir: ");
             cantidadAConvertir = teclado.nextDouble();
             cantidadConvertida = String.format("%.2f", valoresActuales.conversion_rates().get(otraMoneda) * cantidadAConvertir);

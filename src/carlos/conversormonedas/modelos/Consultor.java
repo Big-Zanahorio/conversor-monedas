@@ -28,7 +28,7 @@ public class Consultor {
             throw new RuntimeException("Incapaz de obtener las monedas actualizadas");
         }
     }
-    public TazaDeCambio obtenerValoresActuales(String moneda) {
+    public RespuestaEchangeRate obtenerTazaDeCambio(String moneda) {
         URI direccion = URI.create("https://v6.exchangerate-api.com/v6/d82034ea31a337eb2a125d08/latest/" + moneda);
 
         HttpClient client = HttpClient.newBuilder()
@@ -44,7 +44,7 @@ public class Consultor {
             HttpResponse<String> response = null;
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            return  new Gson().fromJson(response.body(), TazaDeCambio.class);
+            return  new Gson().fromJson(response.body(), RespuestaEchangeRate.class);
 
         } catch (Exception e) {
             throw new RuntimeException("No encontre la moneda: " + moneda);
