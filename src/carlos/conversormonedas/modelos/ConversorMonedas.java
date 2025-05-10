@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class ConversorMonedas {
     private List<ApisDeDivisas> apis;
     private List<Consulta> consultas = new ArrayList<>();
-    Consultor consultor = new Consultor();
 
     public ConversorMonedas(List<ApisDeDivisas> apis) {
         this.apis = apis;
@@ -100,10 +99,8 @@ public class ConversorMonedas {
     }
 
     private void mostrarClaves() {
-        CodigosDeMonedaActuales monedas = consultor.obtenerMonedasActuales();
-        System.out.println("Monedas: " + monedas);
-        for (String moneda : monedas.supported_codes().keySet()) {
-            System.out.println(monedas.supported_codes().get(moneda) + ": " + moneda);
+        for (ApisDeDivisas api : apis) {
+            api.muestraConversionesValidas();
         }
     }
 }
