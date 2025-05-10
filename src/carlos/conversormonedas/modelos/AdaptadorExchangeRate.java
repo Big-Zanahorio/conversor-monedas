@@ -7,7 +7,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class AdaptadorExchangeRate implements  APIsDeDivisas{
+public class AdaptadorExchangeRate implements ApisDeDivisas {
     double tazaDeCambio;
     public boolean conversionValida(String monedaBase, String monedaObjetivo) {
         URI direccion = URI.create("https://v6.exchangerate-api.com/v6/d82034ea31a337eb2a125d08/latest/" + monedaBase);
@@ -34,7 +34,7 @@ public class AdaptadorExchangeRate implements  APIsDeDivisas{
     }
 
     @Override
-    public double obtenerTazaDeCambio() throws Exception {
+    public double obtenerTazaDeCambio() {
         return tazaDeCambio;
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public class Principal {
     public static void main(String[] args) {
         ConversorMonedas conversor = new ConversorMonedas(List.of(
-                new
+                new AdaptadorExchangeRate()
         ));
         conversor.mostrarMenu();
     }

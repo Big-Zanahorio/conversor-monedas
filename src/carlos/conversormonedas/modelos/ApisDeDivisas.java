@@ -1,6 +1,6 @@
 package carlos.conversormonedas.modelos;
 
-public interface APIsDeDivisas {
+public interface ApisDeDivisas {
     boolean conversionValida(String base, String target); // ¿Puede manejar este par?
-    double obtenerTazaDeCambio() throws Exception;
+    double obtenerTazaDeCambio();
 }

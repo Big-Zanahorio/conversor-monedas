@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ConversorMonedas {
-    private List<APIsDeDivisas> APIs;
+    private List<ApisDeDivisas> apis;
     private List<Consulta> consultas = new ArrayList<>();
     Consultor consultor = new Consultor();
 
-    public ConversorMonedas(List<APIsDeDivisas> APIs) {
-        this.APIs = APIs;
+    public ConversorMonedas(List<ApisDeDivisas> apis) {
+        this.apis = apis;
     }
 
     public void mostrarConsultas() {
@@ -22,39 +22,39 @@ public class ConversorMonedas {
         }
     }
     public  void convertir() {
-        String moneda;
-        String otraMoneda;
+        String monedaBase;
+        String monedaObjetivo;
         Scanner teclado = new Scanner(System.in);
-        double cantidadAConvertir;
-        String cantidadConvertida;
+        double cantidadBase;
+        String cantidadObjetivo;
 
-        System.out.println("""
+        try {
+            System.out.println("""
                 Ingresa el codigo de la moneda a convertir.
                 (Ejemplo MXN)
                 """);
-        moneda = teclado.nextLine();
-        System.out.println("""
+            monedaBase = teclado.nextLine();
+            System.out.println("""
                 Ingresa el codigo de la moneda a la que la quieres convertir.
                 (Ejemplo USD)
                 """);
-        otraMoneda = teclado.nextLine();
-        try {
-
-
-
-            RespuestaEchangeRate valoresActuales = consultor.obtenerTazaDeCambio(moneda);
-            System.out.println("Ingresa la cantidad a convertir: ");
-            cantidadAConvertir = teclado.nextDouble();
-            cantidadConvertida = String.format("%.2f", valoresActuales.conversion_rates().get(otraMoneda) * cantidadAConvertir);
-            System.out.println(cantidadAConvertir + " " + moneda + " equivale a " + cantidadConvertida + " " + otraMoneda);
-            DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
-            Consulta consulta = new Consulta(
-                    cantidadAConvertir,
-                    moneda,
-                    cantidadConvertida,
-                    otraMoneda,
-                    ZonedDateTime.now().format(formatoBonito).toString());
-            consultas.add(consulta);
+            monedaObjetivo = teclado.nextLine();
+            for (ApisDeDivisas api : apis) {
+                if (api.conversionValida(monedaBase, monedaObjetivo)) {
+                    System.out.println("Ingresa la cantidad a convertir: ");
+                    cantidadBase = teclado.nextDouble();
+                    cantidadObjetivo = String.format("%.2f", cantidadBase * api.obtenerTazaDeCambio());
+                    System.out.println(cantidadBase + " " + monedaBase + " equivale a " + cantidadObjetivo + " " + monedaObjetivo);
+                    DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
+                    Consulta consulta = new Consulta(
+                            cantidadBase,
+                            monedaBase,
+                            cantidadObjetivo,
+                            monedaObjetivo,
+                            ZonedDateTime.now().format(formatoBonito).toString());
+                    consultas.add(consulta);
+                }
+            }
         } catch (Exception e) {
             System.out.println("Hubo un error: " + e.getMessage());
         }
