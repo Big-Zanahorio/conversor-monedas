@@ -1,5 +1,7 @@
 package carlos.conversormonedas.modelos;
 
+import carlos.conversormonedas.modelos.apis.ApisDeDivisas;
+
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class ConversorMonedas {
                 if (api.conversionValida(monedaBase, monedaObjetivo)) {
                     System.out.println("Ingresa la cantidad a convertir: ");
                     cantidadBase = teclado.nextDouble();
-                    cantidadObjetivo = String.format("%.2f", cantidadBase * api.obtenerTazaDeCambio());
+                    cantidadObjetivo = String.format("%.2f", cantidadBase * api.obtenerTazaDeCambio(monedaBase, monedaObjetivo));
                     System.out.println(cantidadBase + " " + monedaBase + " equivale a " + cantidadObjetivo + " " + monedaObjetivo);
                     DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
                     Consulta consulta = new Consulta(
@@ -100,7 +102,11 @@ public class ConversorMonedas {
 
     private void mostrarClaves() {
         for (ApisDeDivisas api : apis) {
+            System.out.println("*********************************");
+            System.out.println("API: " + api.getNombre());
+            System.out.println("Monedas: ");
             api.muestraConversionesValidas();
+            System.out.println("*********************************");
         }
     }
 }

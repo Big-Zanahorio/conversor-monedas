@@ -1,5 +1,7 @@
-package carlos.conversormonedas.modelos;
+package carlos.conversormonedas.modelos.apis.exchangerate;
 
+import carlos.conversormonedas.modelos.apis.ApisDeDivisas;
+import carlos.conversormonedas.modelos.CodigosDeMonedaActuales;
 import com.google.gson.Gson;
 
 import java.net.URI;
@@ -8,6 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class AdaptadorExchangeRate implements ApisDeDivisas {
+    String nombre = "Exchange Rate";
     double tazaDeCambio;
     public boolean conversionValida(String monedaBase, String monedaObjetivo) {
         URI direccion = URI.create("https://v6.exchangerate-api.com/v6/d82034ea31a337eb2a125d08/latest/" + monedaBase);
@@ -34,7 +37,7 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
     }
 
     @Override
-    public double obtenerTazaDeCambio() {
+    public double obtenerTazaDeCambio(String monedaBase, String monedaObjetivo) {
         return tazaDeCambio;
     }
     public void muestraConversionesValidas() {
@@ -59,6 +62,11 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
         } catch (Exception e) {
             throw new RuntimeException("Incapaz de obtener las monedas actualizadas");
         }
+    }
+
+    @Override
+    public String getNombre() {
+        return nombre;
     }
 
 }

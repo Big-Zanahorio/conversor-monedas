@@ -1,4 +1,4 @@
-package carlos.conversormonedas.modelos;
+package carlos.conversormonedas.modelos.apis.exchangerate;
 
 import java.util.Map;
 
