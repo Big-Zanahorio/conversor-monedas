@@ -18,7 +18,9 @@ public class ConversorMonedas {
     }
 
     public void mostrarConsultas() {
-        System.out.println("Historial de consultas: ");
+        System.out.println("\n╔════════════════════════════════════════════════════════════╗");
+        System.out.println("║                  Historial de Consultas                    ║");
+        System.out.println("╚════════════════════════════════════════════════════════════╝");
         for (Consulta consulta : consultas) {
             System.out.println(consulta);
         }
@@ -31,24 +33,33 @@ public class ConversorMonedas {
         String cantidadObjetivo;
 
         try {
-            System.out.println("""
-                Ingresa el codigo de la moneda a convertir.
-                (Ejemplo MXN)
-                """);
+            System.out.println("╔═══════════════════════════════════╗");
+            System.out.println("║        Conversión de Moneda       ║");
+            System.out.println("╚═══════════════════════════════════╝");
+            System.out.println("🔤 Ingresa el código de la monedaBase a convertir");
+            System.out.println("   Ejemplo: MXN");
+            System.out.print("👉 Código: ");
             monedaBase = teclado.nextLine();
-            System.out.println("""
-                Ingresa el codigo de la moneda a la que la quieres convertir.
-                (Ejemplo USD)
-                """);
+
+            System.out.println();
+            System.out.println("🔁 Ingresa el código de la monedaBase objetivo");
+            System.out.println("   Ejemplo: USD");
+            System.out.print("👉 Código: ");
             monedaObjetivo = teclado.nextLine();
-            System.out.println("Ingresa la cantidad a convertir: ");
+
+            System.out.println();
+            System.out.println("💰 Ingresa la cantidad a convertir");
+            System.out.print("👉 Cantidad: ");
             cantidadBase = teclado.nextDouble();
             for (ApisDeDivisas api : apis) {
                 if (api.conversionValida(monedaBase, monedaObjetivo)) {
                     double tazaDeCambio = api.obtenerTazaDeCambio(monedaBase, monedaObjetivo);
                     cantidadObjetivo = String.format("%.2f", (cantidadBase * tazaDeCambio));
-                    System.out.println(cantidadBase + " " + monedaBase + " equivale a " + cantidadObjetivo + " " + monedaObjetivo);
-                    DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
+                    System.out.println("\n╔══════════════════════════════════════════════╗");
+                    System.out.println("║              Resultado de Conversión         ║");
+                    System.out.println("╚══════════════════════════════════════════════╝");
+                    System.out.println("🔢 " + cantidadBase + " " + monedaBase +
+                            " equivale a 💱 " + cantidadObjetivo + " " + monedaObjetivo);                  DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
                     Consulta consulta = new Consulta(
                             cantidadBase,
                             monedaBase,
@@ -60,8 +71,9 @@ public class ConversorMonedas {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Hubo un error: " + e.getMessage());
-        }
+            System.out.println("\n╔═══════════════════════════════════╗");
+            System.out.println("║      ❌ Conversión Inválida       ║");
+            System.out.println("╚═══════════════════════════════════╝");       }
     }
 
     public void mostrarMenu() {
@@ -69,20 +81,20 @@ public class ConversorMonedas {
         boolean salir = false;
 
         Scanner teclado = new Scanner(System.in);
-        try {
-            while (!salir) {
-                System.out.println("""
-                *********************************
-                Bienvenido al Conversor de Moneda
-                *********************************
+        while (!salir) {
 
-                1) Convertir moneda
-                2) Mostrar consultas
-                3) Claves de las monedas
-                9) Salir
+                System.out.println("╔═════════════════════════════════════════════╗");
+                System.out.println("║      Bienvenido al Conversor de Moneda      ║");
+                System.out.println("╚═════════════════════════════════════════════╝");
+                System.out.println();
+                System.out.println("  1) 💱 Convertir monedaBase");
+                System.out.println("  2) 📋 Mostrar consultas anteriores");
+                System.out.println("  3) 🗝️ Ver claves de las monedas");
+                System.out.println("  9) ❌ Salir");
+                System.out.println();
+                System.out.print("👉 Escoja una opción válida: ");
 
-                Escoja una opcion valida:
-                """);
+            try {
                 seleccion = teclado.nextInt();
                 switch (seleccion) {
                     case 1:
@@ -98,24 +110,30 @@ public class ConversorMonedas {
                         salir = true;
                         break;
                     default:
-                        System.out.println("Opcion invalida");
+                        System.out.println("\n╔════════════════════════════╗");
+                        System.out.println("║ ⚠️ Opción inválida elegida ║");
+                        System.out.println("╚════════════════════════════╝\n");
                         break;
                 }
-
+            } catch (Exception e) {
+                System.out.println("\n╔═════════════════════════════════════╗");
+                System.out.println("║ ⚠️  Entrada inválida                ║");
+                System.out.println("║ Por favor, ingresa un número válido ║");
+                System.out.println("╚═════════════════════════════════════╝\n");
+                teclado.nextLine();
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Opcion invalida");
-        } catch (Exception e) {
-            System.out.println("Hubo un error");
         }
     }
 
     private void mostrarClaves() {
         for (ApisDeDivisas api : apis) {
-            System.out.println("*********************************");
-            System.out.println("API: " + api.getNombre());
+            System.out.println("\n╔══════════════════════════════════════╗");
+            System.out.printf("║ API: %-30s  ║%n", api.getNombre());
+            System.out.println("╚══════════════════════════════════════╝");
+
             api.muestraConversionesValidas();
-            System.out.println("*********************************");
+
+            System.out.println("────────────────────────────────────────");
         }
     }
 }

@@ -41,7 +41,7 @@ public class AdaptadorCoingecko implements ApisDeDivisas {
 
             return true;
         } catch (Exception e) {
-            throw new RuntimeException("Hubo un error");
+            return false;
         }
     }
 
@@ -68,19 +68,23 @@ public class AdaptadorCoingecko implements ApisDeDivisas {
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
             RespuestaCoingeckoMultiples datosCoingecko =  new Gson().fromJson(response.body(), RespuestaCoingeckoMultiples.class);
-            for (Map.Entry<String, MonedaCoingecko> entry: datosCoingecko.rates().entrySet()) {
+            for (Map.Entry<String, MonedaCoingecko> entry : datosCoingecko.rates().entrySet()) {
                 String codigo = entry.getKey();
                 MonedaCoingecko moneda = entry.getValue();
 
-                System.out.println("Código: " + codigo);
-                System.out.println("Nombre: " + moneda.name());
-                System.out.println("Unidad: " + moneda.unit());
-                System.out.println("Valor: " + moneda.value());
-                System.out.println("Tipo: " + moneda.type());
-                System.out.println();
+                System.out.println("🔸 Código: " + codigo);
+                System.out.println("📛 Nombre: " + moneda.name());
+                System.out.println("📏 Unidad: " + moneda.unit());
+                System.out.println("💰 Valor : " + moneda.value());
+                System.out.println("🏷️  Tipo  : " + moneda.type());
+                System.out.println("────────────────────────────────────────────────────────────");
             }
+            System.out.println();
         } catch (Exception e) {
-            throw new RuntimeException("Incapaz de obtener las monedas actualizadas");
+            System.out.println("\n╔══════════════════════════════════════════════════╗");
+            System.out.println("║ ❌ Error al obtener monedas desde CoinGecko      ║");
+            System.out.println("║ Por favor, intenta nuevamente más tarde.         ║");
+            System.out.println("╚══════════════════════════════════════════════════╝\n");
         }
     }
 

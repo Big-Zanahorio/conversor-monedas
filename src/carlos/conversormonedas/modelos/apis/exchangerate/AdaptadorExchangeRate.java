@@ -24,12 +24,13 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
                 .build();
 
         try {
-            HttpResponse<String> response = null;
-            response = client
-                    .send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
             RespuestaExchangeRate respuesta = new Gson().fromJson(response.body(), RespuestaExchangeRate.class);
             tazaDeCambio = respuesta.conversion_rates().get(monedaObjetivo);
+
             return true;
+
         } catch (Exception e) {
             return false;
         }
@@ -55,12 +56,24 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
             MonedasExchangeRate monedas =  new Gson().fromJson(response.body(), MonedasExchangeRate.class);
-            System.out.println("Monedas: ");
-            for (String moneda : monedas.supported_codes().keySet()) {
-                System.out.println(monedas.supported_codes().get(moneda) + ": " + moneda);
+            System.out.println("\n╔══════════════════════════════════════════════════════╗");
+            System.out.println("║                  Lista de Monedas                    ║");
+            System.out.println("╠═════════════════════════════════════════╦════════════╣");
+            System.out.println("║             Código Nombre               ║ Código ISO ║");
+            System.out.println("╠═════════════════════════════════════════╬════════════╣");
+
+            for (String codigo : monedas.supported_codes().keySet()) {
+                String nombre = monedas.supported_codes().get(codigo);
+                System.out.printf("║ %-39s ║    %-7s ║%n", nombre, codigo);
             }
+
+            System.out.println("╚═════════════════════════════════════════╩════════════╝");
+            System.out.println();
         } catch (Exception e) {
-            throw new RuntimeException("Incapaz de obtener las monedas actualizadas");
+            System.out.println("\n╔══════════════════════════════════════════════════╗");
+            System.out.println("║ ❌ Error al obtener monedas desde ExchangeRate   ║");
+            System.out.println("║ Por favor, intenta nuevamente más tarde.         ║");
+            System.out.println("╚══════════════════════════════════════════════════╝\n");
         }
     }
 

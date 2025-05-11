@@ -2,16 +2,16 @@ package carlos.conversormonedas.modelos;
 
 public record Consulta(
         double valorMoneda,
-        String moneda,
+        String monedaBase,
         String valorMonedaConvertida,
         String monedaConvertida,
         String fechaYHora) {
     @Override
     public String toString() {
-
-        System.out.println();
-        return this.valorMoneda() + " " + this.moneda()
-                + " equivale a " + this.valorMonedaConvertida() + " " + this.monedaConvertida()
-                + ", fecha de consulta: " + this.fechaYHora;
+        // Se formatea todo en una sola línea, con valores bien alineados y delimitados
+        return String.format(" %.2f %s → %.2f %s | Fecha: %s ",
+                valorMoneda, monedaBase,
+                Double.parseDouble(valorMonedaConvertida), monedaConvertida,
+                fechaYHora);
     }
 }

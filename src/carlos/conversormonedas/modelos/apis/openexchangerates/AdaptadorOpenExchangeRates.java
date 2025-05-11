@@ -12,7 +12,7 @@ public class AdaptadorOpenExchangeRates implements ApisDeDivisas {
     private String nombre = "Open Exchange Rates";
     @Override
     public boolean conversionValida(String monedaBase, String monedaObjetivo) {
-        return monedaBase.equals("USD"); // Solo maneja USD como moneda
+        return monedaBase.equals("USD"); // Solo maneja USD como monedaBase
     }
 
     @Override
@@ -35,13 +35,20 @@ public class AdaptadorOpenExchangeRates implements ApisDeDivisas {
             RespuestaOpenExchangeRates respuesta = new Gson().fromJson(response.body(), RespuestaOpenExchangeRates.class);
             return respuesta.rates().get(monedaObjetivo);
         } catch (Exception e) {
-            throw new RuntimeException("No encontre la moneda: " + monedaBase + " en la segunda API");
+            System.out.println("\n╔════════════════════════════════════════════════════════════╗");
+            System.out.println("║ ❌ Error al obtener monedas desde Open Exchange Rates      ║");
+            System.out.println("║ Por favor, intenta nuevamente más tarde.                   ║");
+            System.out.println("╚════════════════════════════════════════════════════════════╝\n");
+
+            return 0;
         }
     }
 
     @Override
     public void muestraConversionesValidas() {
-        System.out.println("De USD a: ");
+        System.out.println("\n╔═══════════════════════════════════════╗");
+        System.out.println("║          Conversión de USD a:         ║");
+        System.out.println("╠═══════════════════════════════════════╣");
 
         URI direccion = URI.create("https://openexchangerates.org/api/latest.json?app_id=308cfea71ae24654a18c65b6eb4e3676");
 
@@ -61,16 +68,25 @@ public class AdaptadorOpenExchangeRates implements ApisDeDivisas {
             RespuestaOpenExchangeRates respuesta = new Gson().fromJson(response.body(), RespuestaOpenExchangeRates.class);
             int contador = 0;
             for (String moneda : respuesta.rates().keySet()) {
-                System.out.print(moneda + " ");
+                System.out.printf("║   %-5s ", moneda);  // Formatea la monedaBase con un espacio de 8 caracteres
                 contador++;
-                        if (contador % 9 == 0) {
-                            System.out.println();
-                        }
+                if (contador % 4 == 0) {  // Cada 4 monedas imprimimos un salto de línea
+                    System.out.println("║");
+                }
             }
+
+            if (contador % 4 != 0) {
+                System.out.println("║");  // Asegura que la última línea se cierre correctamente
+            }
+
+            System.out.println("╚═══════════════════════════════════════╝");
             System.out.println();
         } catch (Exception e) {
-            throw new RuntimeException("Error en la API Open Exchange Rates");
-        }
+
+            System.out.println("\n╔════════════════════════════════════════════════════════════╗");
+            System.out.println("║ ❌ Error al obtener monedas desde Open Exchange Rates      ║");
+            System.out.println("║ Por favor, intenta nuevamente más tarde.                   ║");
+            System.out.println("╚════════════════════════════════════════════════════════════╝\n");        }
     }
 
     @Override
