@@ -11,9 +11,9 @@ import java.util.List;
 public class Principal {
     public static void main(String[] args) {
         ConversorMonedas conversor = new ConversorMonedas(List.of(
-                new AdaptadorExchangeRate()
-//                new AdaptadorOpenExchangeRates(),
-//                new AdaptadorCoingecko()
+                new AdaptadorExchangeRate(),
+                new AdaptadorOpenExchangeRates(),
+                new AdaptadorCoingecko()
         ));
         conversor.mostrarMenu();
     }

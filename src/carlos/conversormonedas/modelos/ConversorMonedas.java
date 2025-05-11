@@ -45,7 +45,8 @@ public class ConversorMonedas {
             cantidadBase = teclado.nextDouble();
             for (ApisDeDivisas api : apis) {
                 if (api.conversionValida(monedaBase, monedaObjetivo)) {
-                    cantidadObjetivo = String.format("%.2f", cantidadBase * api.obtenerTazaDeCambio(monedaBase, monedaObjetivo));
+                    double tazaDeCambio = api.obtenerTazaDeCambio(monedaBase, monedaObjetivo);
+                    cantidadObjetivo = String.format("%.2f", (cantidadBase * tazaDeCambio));
                     System.out.println(cantidadBase + " " + monedaBase + " equivale a " + cantidadObjetivo + " " + monedaObjetivo);
                     DateTimeFormatter formatoBonito = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - HH:mm zzzz");
                     Consulta consulta = new Consulta(
@@ -68,8 +69,9 @@ public class ConversorMonedas {
         boolean salir = false;
 
         Scanner teclado = new Scanner(System.in);
-        while (!salir) {
-            System.out.println("""
+        try {
+            while (!salir) {
+                System.out.println("""
                 *********************************
                 Bienvenido al Conversor de Moneda
                 *********************************
@@ -81,7 +83,6 @@ public class ConversorMonedas {
 
                 Escoja una opcion valida:
                 """);
-            try {
                 seleccion = teclado.nextInt();
                 switch (seleccion) {
                     case 1:
@@ -101,16 +102,12 @@ public class ConversorMonedas {
                         break;
                 }
 
-            } catch (InputMismatchException e) {
-                System.out.println("Opcion invalida");
-            } catch (Exception e) {
-                System.out.println("EEEEEEEEEERRRRRRRROOOOOOOOOORRRRRRRRR");
-                System.out.println("Hubo un error");
             }
+        } catch (InputMismatchException e) {
+            System.out.println("Opcion invalida");
+        } catch (Exception e) {
+            System.out.println("Hubo un error");
         }
-//        for (ApisDeDivisas api : apis) {
-//            api.conversionValida("bitcoin", "usd");
-//        }
     }
 
     private void mostrarClaves() {
