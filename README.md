@@ -1,50 +1,70 @@
-# 💱 Conversor de Moneda
+## 📖 Descripción General
 
-Aplicación en **Java** que permite convertir montos entre diferentes monedas utilizando tasas de cambio actualizadas desde una API externa.
-
----
-
-## 📋 Descripción
-
-La app recibe del usuario:
-- La **moneda de origen**
-- La **cantidad a convertir**
-- La **moneda de destino**
-
-Y muestra el **valor convertido** en pantalla usando tasas de cambio obtenidas desde una API externa.
+Este proyecto es un conversor de divisas de uso sencillo que obtiene datos actualizados de diferentes APIs para ofrecer conversiones de moneda precisas. El usuario puede elegir entre varias funciones, como convertir divisas, revisar el historial de conversiones y consultar las monedas disponibles soportadas por las APIs.
 
 ---
 
-## 🚀 Tecnologías utilizadas
+## ✨ Características Principales
 
-- ☕ **Java**
-- 📦 **Gson** (para parseo de JSON)
-- 🌐 **ExchangeRateAPI** ([https://app.exchangerate-api.com/](https://app.exchangerate-api.com/))
-
----
-
-## 🔧 Funcionalidades principales
-
-- 🧭 Desplegar un menú interactivo para seleccionar las monedas.
-- ✅ Validación de entrada para asegurarse de que los datos sean correctos.
-- 🔄 Obtener tasas de cambio desde la API externa.
-- 💰 Calcular y mostrar el monto convertido en la moneda deseada.
-- 🌍 Soporta múltiples monedas internacionales.
+- 📋 Muestra un menú interactivo al usuario.
+- ✅ Permite seleccionar diferentes opciones para operar.
+- ⚠️ Muestra mensajes de error amigables ante entradas incorrectas.
+- 🔄 Selecciona automáticamente la mejor API para realizar la conversión solicitada.
+- 🕓 Guarda y muestra el historial de conversiones realizadas.
+- 🌍 Lista todas las conversiones disponibles por cada API integrada.
 
 ---
 
-## 🌐 API utilizada
+## 📸 Capturas de pantalla
 
-Se utiliza la API pública de **[ExchangeRateAPI](https://app.exchangerate-api.com/)** para obtener las tasas de cambio en tiempo real. Se requiere una clave de API gratuita, que puedes obtener registrándote en su sitio web.
+### Menú principal
+![Menú principal](./screenshots/menu-principal.png)
+
+### Conversión exitosa
+![Conversión exitosa](./screenshots/conversion-exitosa.png)
+
+### Historial de consultas
+![Historial de consultas](./screenshots/historial-consultas.png)
 
 ---
 
-## 📄 Licencia
+## 🛠️ Tecnologías Utilizadas
 
-Este proyecto está bajo **licencia MIT**. Puedes usarlo, modificarlo y compartirlo libremente.
+- [Java](https://www.oracle.com/java/)
+- [Gson](https://github.com/google/gson)
+- [JSON](https://www.json.org/)
+- Java HTTP Client (HttpRequest / HttpResponse)
 
 ---
 
-## 🤝 Contribuciones
+## 🌐 APIs Utilizadas
 
-Si tienes ideas o mejoras, ¡serás bienvenido a colaborar! Puedes abrir un [Issue](https://github.com/tu-usuario/conversor-monedas/issues) o hacer un **Pull Request**.
+El conversor de monedas integra múltiples APIs para ofrecer tasas de cambio actualizadas y confiables. A continuación se detallan las APIs disponibles:
+
+- **[ExchangeRateAPI](https://app.exchangerate-api.com/)**  
+  Proporciona tasas de cambio en tiempo real para una amplia variedad de monedas. Requiere una clave de API gratuita que puedes obtener registrándote en su sitio web.
+
+- **[Open Exchange Rates](https://openexchangerates.org/)**  
+  Ofrece datos fiables sobre tipos de cambio para más de 200 monedas. Requiere una cuenta gratuita o de pago para acceder a diferentes niveles de funcionalidad.
+
+- **[CoinGecko API](https://www.coingecko.com/en/api)**  
+  Ideal para obtener datos de criptomonedas. No requiere autenticación para acceder a la mayoría de sus endpoints, aunque aplica límites de uso por IP.
+
+---
+
+## ⚙️ Requisitos Previos
+
+Antes de ejecutar el proyecto, asegúrate de tener lo siguiente instalado en tu sistema:
+
+- Java JDK 17 o superior
+- Un IDE como IntelliJ IDEA, Eclipse o VS Code
+- Conexión a Internet (para consultar las APIs)
+- Maven (opcional, si decides administrar dependencias)
+
+---
+
+## 🚀 Instalación y Ejecución
+
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/conversor-monedas.git
