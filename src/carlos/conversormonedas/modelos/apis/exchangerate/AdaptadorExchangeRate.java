@@ -24,12 +24,13 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
                 .build();
 
         try {
-            HttpResponse<String> response = null;
-            response = client
-                    .send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
             RespuestaExchangeRate respuesta = new Gson().fromJson(response.body(), RespuestaExchangeRate.class);
             tazaDeCambio = respuesta.conversion_rates().get(monedaObjetivo);
+
             return true;
+
         } catch (Exception e) {
             return false;
         }
@@ -69,7 +70,10 @@ public class AdaptadorExchangeRate implements ApisDeDivisas {
             System.out.println("╚═════════════════════════════════════════╩════════════╝");
             System.out.println();
         } catch (Exception e) {
-            throw new RuntimeException("Incapaz de obtener las monedas actualizadas");
+            System.out.println("\n╔══════════════════════════════════════════════════╗");
+            System.out.println("║ ❌ Error al obtener monedas desde ExchangeRate   ║");
+            System.out.println("║ Por favor, intenta nuevamente más tarde.         ║");
+            System.out.println("╚══════════════════════════════════════════════════╝\n");
         }
     }
 

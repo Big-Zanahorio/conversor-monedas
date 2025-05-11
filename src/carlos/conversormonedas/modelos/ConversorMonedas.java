@@ -71,8 +71,9 @@ public class ConversorMonedas {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Hubo un error: " + e.getMessage());
-        }
+            System.out.println("\n╔═══════════════════════════════════╗");
+            System.out.println("║      ❌ Conversión Inválida       ║");
+            System.out.println("╚═══════════════════════════════════╝");       }
     }
 
     public void mostrarMenu() {
@@ -80,8 +81,8 @@ public class ConversorMonedas {
         boolean salir = false;
 
         Scanner teclado = new Scanner(System.in);
-        try {
-            while (!salir) {
+        while (!salir) {
+
                 System.out.println("╔═════════════════════════════════════════════╗");
                 System.out.println("║      Bienvenido al Conversor de Moneda      ║");
                 System.out.println("╚═════════════════════════════════════════════╝");
@@ -92,6 +93,8 @@ public class ConversorMonedas {
                 System.out.println("  9) ❌ Salir");
                 System.out.println();
                 System.out.print("👉 Escoja una opción válida: ");
+
+            try {
                 seleccion = teclado.nextInt();
                 switch (seleccion) {
                     case 1:
@@ -107,15 +110,18 @@ public class ConversorMonedas {
                         salir = true;
                         break;
                     default:
-                        System.out.println("Opcion invalida");
+                        System.out.println("\n╔════════════════════════════╗");
+                        System.out.println("║ ⚠️ Opción inválida elegida ║");
+                        System.out.println("╚════════════════════════════╝\n");
                         break;
                 }
-
+            } catch (Exception e) {
+                System.out.println("\n╔═════════════════════════════════════╗");
+                System.out.println("║ ⚠️  Entrada inválida                ║");
+                System.out.println("║ Por favor, ingresa un número válido ║");
+                System.out.println("╚═════════════════════════════════════╝\n");
+                teclado.nextLine();
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Opcion invalida");
-        } catch (Exception e) {
-            System.out.println("Hubo un error");
         }
     }
 

@@ -35,7 +35,12 @@ public class AdaptadorOpenExchangeRates implements ApisDeDivisas {
             RespuestaOpenExchangeRates respuesta = new Gson().fromJson(response.body(), RespuestaOpenExchangeRates.class);
             return respuesta.rates().get(monedaObjetivo);
         } catch (Exception e) {
-            throw new RuntimeException("No encontre la monedaBase: " + monedaBase + " en la segunda API");
+            System.out.println("\n╔════════════════════════════════════════════════════════════╗");
+            System.out.println("║ ❌ Error al obtener monedas desde Open Exchange Rates      ║");
+            System.out.println("║ Por favor, intenta nuevamente más tarde.                   ║");
+            System.out.println("╚════════════════════════════════════════════════════════════╝\n");
+
+            return 0;
         }
     }
 
@@ -77,8 +82,11 @@ public class AdaptadorOpenExchangeRates implements ApisDeDivisas {
             System.out.println("╚═══════════════════════════════════════╝");
             System.out.println();
         } catch (Exception e) {
-            throw new RuntimeException("Error en la API Open Exchange Rates");
-        }
+
+            System.out.println("\n╔════════════════════════════════════════════════════════════╗");
+            System.out.println("║ ❌ Error al obtener monedas desde Open Exchange Rates      ║");
+            System.out.println("║ Por favor, intenta nuevamente más tarde.                   ║");
+            System.out.println("╚════════════════════════════════════════════════════════════╝\n");        }
     }
 
     @Override
