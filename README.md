@@ -15,6 +15,19 @@ Este proyecto es un conversor de divisas de uso sencillo que obtiene datos actua
 
 ---
 
+## 📸 Capturas de pantalla
+
+### Menú principal
+![Menú principal](./screenshots/menu-principal.png)
+
+### Conversión exitosa
+![Conversión exitosa](./screenshots/conversion-exitosa.png)
+
+### Historial de consultas
+![Historial de consultas](./screenshots/historial-consultas.png)
+
+---
+
 ## 🛠️ Tecnologías Utilizadas
 
 - [Java](https://www.oracle.com/java/)
